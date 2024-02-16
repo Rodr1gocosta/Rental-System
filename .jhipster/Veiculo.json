@@ -1,0 +1,55 @@
+{
+  "annotations": {
+    "changelogDate": "20240205230933"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "entityTableName": "veiculo",
+  "fields": [
+    {
+      "fieldName": "placa",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "7"
+    },
+    {
+      "fieldName": "marca",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "20"
+    },
+    {
+      "fieldName": "modelo",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "20"
+    },
+    {
+      "fieldName": "dataAquisicao",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "classe",
+      "fieldType": "Classe",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "PASSEIO,CARGA,VAN,LOCACAO"
+    },
+    {
+      "fieldName": "grupo",
+      "fieldType": "Grupo",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "HATCH_COMPACTO,HATCH_MEDIO,SEDAN_MEDIO,SEDAN_LUXO"
+    },
+    {
+      "fieldName": "situcao",
+      "fieldType": "Situacao",
+      "fieldValidateRules": ["required"],
+      "fieldValues": "ALUGADO,PARA_PREPARAR,PRONTO,PREPARACAO,MANUTENCAO,REPARO"
+    }
+  ],
+  "name": "Veiculo",
+  "pagination": "pagination",
+  "relationships": [],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

@@ -1,0 +1,13 @@
+export enum Situacao {
+  ALUGADO = 'ALUGADO',
+
+  PARA_PREPARAR = 'PARA_PREPARAR',
+
+  PRONTO = 'PRONTO',
+
+  PREPARACAO = 'PREPARACAO',
+
+  MANUTENCAO = 'MANUTENCAO',
+
+  REPARO = 'REPARO',
+}

@@ -1,0 +1,63 @@
+{
+  "annotations": {
+    "changelogDate": "20240205231233"
+  },
+  "applications": "*",
+  "dto": "mapstruct",
+  "entityTableName": "contrato",
+  "fields": [
+    {
+      "fieldName": "taxaDoDia",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "kmInicial",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "kmFinal",
+      "fieldType": "Long"
+    },
+    {
+      "fieldName": "periodo",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "contratoDataInicio",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "contratoDataFinal",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "contratoDataRetirada",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "contratoDataEntrega",
+      "fieldType": "Instant"
+    }
+  ],
+  "name": "Contrato",
+  "pagination": "pagination",
+  "relationships": [
+    {
+      "otherEntityName": "cliente",
+      "relationshipName": "cliente",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    },
+    {
+      "otherEntityName": "veiculo",
+      "relationshipName": "veiculo",
+      "relationshipSide": "left",
+      "relationshipType": "one-to-one"
+    }
+  ],
+  "searchEngine": "no",
+  "service": "serviceImpl"
+}

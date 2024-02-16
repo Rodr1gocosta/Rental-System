@@ -1,0 +1,194 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-contrato-heading" data-cy="ContratoCreateUpdateHeading">Criar ou editar Contrato</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" for="field_taxaDoDia">Taxa Do Dia</label>
+          <input type="text" class="form-control" name="taxaDoDia" id="field_taxaDoDia" data-cy="taxaDoDia" formControlName="taxaDoDia" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_kmInicial">Km Inicial</label>
+          <input type="number" class="form-control" name="kmInicial" id="field_kmInicial" data-cy="kmInicial" formControlName="kmInicial" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_kmFinal">Km Final</label>
+          <input type="number" class="form-control" name="kmFinal" id="field_kmFinal" data-cy="kmFinal" formControlName="kmFinal" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_periodo">Periodo</label>
+          <div class="d-flex">
+            <input
+              id="field_periodo"
+              data-cy="periodo"
+              type="datetime-local"
+              class="form-control"
+              name="periodo"
+              formControlName="periodo"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          @if (editForm.get('periodo')!.invalid && (editForm.get('periodo')!.dirty || editForm.get('periodo')!.touched)) {
+            <div>
+              @if (editForm.get('periodo')?.errors?.required) {
+                <small class="form-text text-danger">O campo é obrigatório.</small>
+              }
+              <small class="form-text text-danger" [hidden]="!editForm.get('periodo')?.errors?.datetimelocal"
+                >Este campo é do tipo data/hora.</small
+              >
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_contratoDataInicio">Contrato Data Inicio</label>
+          <div class="d-flex">
+            <input
+              id="field_contratoDataInicio"
+              data-cy="contratoDataInicio"
+              type="datetime-local"
+              class="form-control"
+              name="contratoDataInicio"
+              formControlName="contratoDataInicio"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          @if (
+            editForm.get('contratoDataInicio')!.invalid &&
+            (editForm.get('contratoDataInicio')!.dirty || editForm.get('contratoDataInicio')!.touched)
+          ) {
+            <div>
+              @if (editForm.get('contratoDataInicio')?.errors?.required) {
+                <small class="form-text text-danger">O campo é obrigatório.</small>
+              }
+              <small class="form-text text-danger" [hidden]="!editForm.get('contratoDataInicio')?.errors?.datetimelocal"
+                >Este campo é do tipo data/hora.</small
+              >
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_contratoDataFinal">Contrato Data Final</label>
+          <div class="d-flex">
+            <input
+              id="field_contratoDataFinal"
+              data-cy="contratoDataFinal"
+              type="datetime-local"
+              class="form-control"
+              name="contratoDataFinal"
+              formControlName="contratoDataFinal"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+          @if (
+            editForm.get('contratoDataFinal')!.invalid &&
+            (editForm.get('contratoDataFinal')!.dirty || editForm.get('contratoDataFinal')!.touched)
+          ) {
+            <div>
+              @if (editForm.get('contratoDataFinal')?.errors?.required) {
+                <small class="form-text text-danger">O campo é obrigatório.</small>
+              }
+              <small class="form-text text-danger" [hidden]="!editForm.get('contratoDataFinal')?.errors?.datetimelocal"
+                >Este campo é do tipo data/hora.</small
+              >
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_contratoDataRetirada">Contrato Data Retirada</label>
+          <div class="d-flex">
+            <input
+              id="field_contratoDataRetirada"
+              data-cy="contratoDataRetirada"
+              type="datetime-local"
+              class="form-control"
+              name="contratoDataRetirada"
+              formControlName="contratoDataRetirada"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_contratoDataEntrega">Contrato Data Entrega</label>
+          <div class="d-flex">
+            <input
+              id="field_contratoDataEntrega"
+              data-cy="contratoDataEntrega"
+              type="datetime-local"
+              class="form-control"
+              name="contratoDataEntrega"
+              formControlName="contratoDataEntrega"
+              placeholder="YYYY-MM-DD HH:mm"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_cliente">Cliente</label>
+          <select
+            class="form-control"
+            id="field_cliente"
+            data-cy="cliente"
+            name="cliente"
+            formControlName="cliente"
+            [compareWith]="compareCliente"
+          >
+            <option [ngValue]="null"></option>
+            @for (clienteOption of clientesCollection; track $index) {
+              <option [ngValue]="clienteOption">{{ clienteOption.id }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_veiculo">Veiculo</label>
+          <select
+            class="form-control"
+            id="field_veiculo"
+            data-cy="veiculo"
+            name="veiculo"
+            formControlName="veiculo"
+            [compareWith]="compareVeiculo"
+          >
+            <option [ngValue]="null"></option>
+            @for (veiculoOption of veiculosCollection; track $index) {
+              <option [ngValue]="veiculoOption">{{ veiculoOption.id }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancelar</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Salvar</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

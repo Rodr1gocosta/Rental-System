@@ -1,0 +1,74 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (cliente) {
+      <div>
+        <h2 data-cy="clienteDetailsHeading"><span>Cliente</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span>Código</span></dt>
+          <dd>
+            <span>{{ cliente.id }}</span>
+          </dd>
+          <dt><span>Nome</span></dt>
+          <dd>
+            <span>{{ cliente.nome }}</span>
+          </dd>
+          <dt><span>Telefone 1</span></dt>
+          <dd>
+            <span>{{ cliente.telefone1 }}</span>
+          </dd>
+          <dt><span>Telefone 2</span></dt>
+          <dd>
+            <span>{{ cliente.telefone2 }}</span>
+          </dd>
+          <dt><span>Email</span></dt>
+          <dd>
+            <span>{{ cliente.email }}</span>
+          </dd>
+          <dt><span>Cpf</span></dt>
+          <dd>
+            <span>{{ cliente.cpf }}</span>
+          </dd>
+          <dt><span>Rg</span></dt>
+          <dd>
+            <span>{{ cliente.rg }}</span>
+          </dd>
+          <dt><span>N Habilidacao</span></dt>
+          <dd>
+            <span>{{ cliente.nHabilidacao }}</span>
+          </dd>
+          <dt><span>Estado Emissao Habilitacao</span></dt>
+          <dd>
+            <span>{{ cliente.estadoEmissaoHabilitacao | formatMediumDate }}</span>
+          </dd>
+          <dt><span>Validade Habilitacao</span></dt>
+          <dd>
+            <span>{{ cliente.validadeHabilitacao | formatMediumDate }}</span>
+          </dd>
+          <dt><span>Endereco</span></dt>
+          <dd>
+            @if (cliente.endereco) {
+              <div>
+                <a [routerLink]="['/endereco', cliente.endereco.id, 'view']">{{ cliente.endereco.id }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Voltar</span>
+        </button>
+
+        <button type="button" [routerLink]="['/cliente', cliente.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Editar</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

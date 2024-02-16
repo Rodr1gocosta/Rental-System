@@ -1,0 +1,101 @@
+import { Component, OnInit } from '@angular/core';
+import { HttpResponse } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { finalize, map } from 'rxjs/operators';
+
+import SharedModule from 'app/shared/shared.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { IEndereco } from 'app/entities/endereco/endereco.model';
+import { EnderecoService } from 'app/entities/endereco/service/endereco.service';
+import { ICliente } from '../cliente.model';
+import { ClienteService } from '../service/cliente.service';
+import { ClienteFormService, ClienteFormGroup } from './cliente-form.service';
+
+@Component({
+  standalone: true,
+  selector: 'jhi-cliente-update',
+  templateUrl: './cliente-update.component.html',
+  imports: [SharedModule, FormsModule, ReactiveFormsModule],
+})
+export class ClienteUpdateComponent implements OnInit {
+  isSaving = false;
+  cliente: ICliente | null = null;
+
+  enderecosCollection: IEndereco[] = [];
+
+  editForm: ClienteFormGroup = this.clienteFormService.createClienteFormGroup();
+
+  constructor(
+    protected clienteService: ClienteService,
+    protected clienteFormService: ClienteFormService,
+    protected enderecoService: EnderecoService,
+    protected activatedRoute: ActivatedRoute,
+  ) {}
+
+  compareEndereco = (o1: IEndereco | null, o2: IEndereco | null): boolean => this.enderecoService.compareEndereco(o1, o2);
+
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(({ cliente }) => {
+      this.cliente = cliente;
+      if (cliente) {
+        this.updateForm(cliente);
+      }
+
+      this.loadRelationshipsOptions();
+    });
+  }
+
+  previousState(): void {
+    window.history.back();
+  }
+
+  save(): void {
+    this.isSaving = true;
+    const cliente = this.clienteFormService.getCliente(this.editForm);
+    if (cliente.id !== null) {
+      this.subscribeToSaveResponse(this.clienteService.update(cliente));
+    } else {
+      this.subscribeToSaveResponse(this.clienteService.create(cliente));
+    }
+  }
+
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<ICliente>>): void {
+    result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
+      next: () => this.onSaveSuccess(),
+      error: () => this.onSaveError(),
+    });
+  }
+
+  protected onSaveSuccess(): void {
+    this.previousState();
+  }
+
+  protected onSaveError(): void {
+    // Api for inheritance.
+  }
+
+  protected onSaveFinalize(): void {
+    this.isSaving = false;
+  }
+
+  protected updateForm(cliente: ICliente): void {
+    this.cliente = cliente;
+    this.clienteFormService.resetForm(this.editForm, cliente);
+
+    this.enderecosCollection = this.enderecoService.addEnderecoToCollectionIfMissing<IEndereco>(this.enderecosCollection, cliente.endereco);
+  }
+
+  protected loadRelationshipsOptions(): void {
+    this.enderecoService
+      .query({ filter: 'cliente-is-null' })
+      .pipe(map((res: HttpResponse<IEndereco[]>) => res.body ?? []))
+      .pipe(
+        map((enderecos: IEndereco[]) =>
+          this.enderecoService.addEnderecoToCollectionIfMissing<IEndereco>(enderecos, this.cliente?.endereco),
+        ),
+      )
+      .subscribe((enderecos: IEndereco[]) => (this.enderecosCollection = enderecos));
+  }
+}

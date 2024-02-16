@@ -1,0 +1,78 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (contrato) {
+      <div>
+        <h2 data-cy="contratoDetailsHeading"><span>Contrato</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span>Código</span></dt>
+          <dd>
+            <span>{{ contrato.id }}</span>
+          </dd>
+          <dt><span>Taxa Do Dia</span></dt>
+          <dd>
+            <span>{{ contrato.taxaDoDia }}</span>
+          </dd>
+          <dt><span>Km Inicial</span></dt>
+          <dd>
+            <span>{{ contrato.kmInicial }}</span>
+          </dd>
+          <dt><span>Km Final</span></dt>
+          <dd>
+            <span>{{ contrato.kmFinal }}</span>
+          </dd>
+          <dt><span>Periodo</span></dt>
+          <dd>
+            <span>{{ contrato.periodo | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span>Contrato Data Inicio</span></dt>
+          <dd>
+            <span>{{ contrato.contratoDataInicio | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span>Contrato Data Final</span></dt>
+          <dd>
+            <span>{{ contrato.contratoDataFinal | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span>Contrato Data Retirada</span></dt>
+          <dd>
+            <span>{{ contrato.contratoDataRetirada | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span>Contrato Data Entrega</span></dt>
+          <dd>
+            <span>{{ contrato.contratoDataEntrega | formatMediumDatetime }}</span>
+          </dd>
+          <dt><span>Cliente</span></dt>
+          <dd>
+            @if (contrato.cliente) {
+              <div>
+                <a [routerLink]="['/cliente', contrato.cliente.id, 'view']">{{ contrato.cliente.id }}</a>
+              </div>
+            }
+          </dd>
+          <dt><span>Veiculo</span></dt>
+          <dd>
+            @if (contrato.veiculo) {
+              <div>
+                <a [routerLink]="['/veiculo', contrato.veiculo.id, 'view']">{{ contrato.veiculo.id }}</a>
+              </div>
+            }
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Voltar</span>
+        </button>
+
+        <button type="button" [routerLink]="['/contrato', contrato.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Editar</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,187 @@
+<div>
+  <h2 id="page-heading" data-cy="ContratoHeading">
+    <span>Contratoes</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Atualizar lista</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-contrato"
+        [routerLink]="['/contrato/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span>Criar novo Contrato</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  @if (contratoes?.length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span>Nenhum Contrato encontrado</span>
+    </div>
+  }
+
+  @if (contratoes && contratoes.length > 0) {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span>Código</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="taxaDoDia">
+              <div class="d-flex">
+                <span>Taxa Do Dia</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="kmInicial">
+              <div class="d-flex">
+                <span>Km Inicial</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="kmFinal">
+              <div class="d-flex">
+                <span>Km Final</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="periodo">
+              <div class="d-flex">
+                <span>Periodo</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="contratoDataInicio">
+              <div class="d-flex">
+                <span>Contrato Data Inicio</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="contratoDataFinal">
+              <div class="d-flex">
+                <span>Contrato Data Final</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="contratoDataRetirada">
+              <div class="d-flex">
+                <span>Contrato Data Retirada</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="contratoDataEntrega">
+              <div class="d-flex">
+                <span>Contrato Data Entrega</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="cliente.id">
+              <div class="d-flex">
+                <span>Cliente</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="veiculo.id">
+              <div class="d-flex">
+                <span>Veiculo</span>
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (contrato of contratoes; track trackId) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/contrato', contrato.id, 'view']">{{ contrato.id }}</a>
+              </td>
+              <td>{{ contrato.taxaDoDia }}</td>
+              <td>{{ contrato.kmInicial }}</td>
+              <td>{{ contrato.kmFinal }}</td>
+              <td>{{ contrato.periodo | formatMediumDatetime }}</td>
+              <td>{{ contrato.contratoDataInicio | formatMediumDatetime }}</td>
+              <td>{{ contrato.contratoDataFinal | formatMediumDatetime }}</td>
+              <td>{{ contrato.contratoDataRetirada | formatMediumDatetime }}</td>
+              <td>{{ contrato.contratoDataEntrega | formatMediumDatetime }}</td>
+              <td>
+                @if (contrato.cliente) {
+                  <div>
+                    <a [routerLink]="['/cliente', contrato.cliente.id, 'view']">{{ contrato.cliente.id }}</a>
+                  </div>
+                }
+              </td>
+              <td>
+                @if (contrato.veiculo) {
+                  <div>
+                    <a [routerLink]="['/veiculo', contrato.veiculo.id, 'view']">{{ contrato.veiculo.id }}</a>
+                  </div>
+                }
+              </td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/contrato', contrato.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline">Visualizar</span>
+                  </a>
+
+                  <a [routerLink]="['/contrato', contrato.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline">Editar</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(contrato)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline">Excluir</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @if (contratoes && contratoes.length > 0) {
+    <div>
+      <div class="d-flex justify-content-center">
+        <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <ngb-pagination
+          [collectionSize]="totalItems"
+          [page]="page"
+          [pageSize]="itemsPerPage"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="navigateToPage($event)"
+        ></ngb-pagination>
+      </div>
+    </div>
+  }
+</div>

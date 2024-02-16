@@ -48,6 +48,10 @@ public class CacheConfiguration {
             createCache(cm, br.com.rentalsystem.locacoes.domain.User.class.getName());
             createCache(cm, br.com.rentalsystem.locacoes.domain.Authority.class.getName());
             createCache(cm, br.com.rentalsystem.locacoes.domain.User.class.getName() + ".authorities");
+            createCache(cm, br.com.rentalsystem.locacoes.domain.Veiculo.class.getName());
+            createCache(cm, br.com.rentalsystem.locacoes.domain.Cliente.class.getName());
+            createCache(cm, br.com.rentalsystem.locacoes.domain.Endereco.class.getName());
+            createCache(cm, br.com.rentalsystem.locacoes.domain.Contrato.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

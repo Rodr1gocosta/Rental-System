@@ -1,0 +1,68 @@
+
+entity Veiculo {
+	placa String required maxlength(7)
+    marca String required maxlength(20)
+    modelo String required maxlength(20)
+    dataAquisicao LocalDate
+    classe Classe required
+    grupo Grupo required
+    situcao Situacao required   
+}
+
+entity Cliente {
+	nome String required
+    telefone1 String required
+    telefone2 String
+    email String required required maxlength(30)
+    cpf String required required maxlength(11)
+    rg String required required maxlength(10)
+    nHabilidacao String required maxlength(12)
+    estadoEmissaoHabilitacao LocalDate required
+    validadeHabilitacao LocalDate required
+}
+
+entity Endereco {
+    cep String required
+    logradouro String required
+    numero String required
+    complemento String
+    bairro String required
+}
+
+entity Contrato {
+	taxaDoDia String
+	kmInicial Long
+	kmFinal Long
+	periodo Instant required
+	contratoDataInicio Instant required
+	contratoDataFinal Instant required
+	contratoDataRetirada Instant
+    contratoDataEntrega Instant
+}
+
+enum Classe {
+    PASSEIO, CARGA, VAN, LOCACAO
+}
+
+enum Grupo {
+    HATCH_COMPACTO, HATCH_MEDIO, SEDAN_MEDIO, SEDAN_LUXO
+}
+
+enum Situacao {
+    ALUGADO, PARA_PREPARAR, PRONTO, PREPARACAO, MANUTENCAO, REPARO
+}
+
+relationship OneToOne {
+	Contrato{cliente} to Cliente
+    Contrato{veiculo} to Veiculo
+}
+
+relationship OneToOne {
+	Cliente{endereco} to Endereco
+}
+
+
+paginate Veiculo, Cliente, Contrato with pagination
+dto * with mapstruct
+service all with serviceImpl
+

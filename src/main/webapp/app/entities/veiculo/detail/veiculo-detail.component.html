@@ -1,0 +1,58 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    @if (veiculo) {
+      <div>
+        <h2 data-cy="veiculoDetailsHeading"><span>Veiculo</span></h2>
+
+        <hr />
+
+        <jhi-alert-error></jhi-alert-error>
+
+        <jhi-alert></jhi-alert>
+
+        <dl class="row-md jh-entity-details">
+          <dt><span>Código</span></dt>
+          <dd>
+            <span>{{ veiculo.id }}</span>
+          </dd>
+          <dt><span>Placa</span></dt>
+          <dd>
+            <span>{{ veiculo.placa }}</span>
+          </dd>
+          <dt><span>Marca</span></dt>
+          <dd>
+            <span>{{ veiculo.marca }}</span>
+          </dd>
+          <dt><span>Modelo</span></dt>
+          <dd>
+            <span>{{ veiculo.modelo }}</span>
+          </dd>
+          <dt><span>Data Aquisicao</span></dt>
+          <dd>
+            <span>{{ veiculo.dataAquisicao | formatMediumDate }}</span>
+          </dd>
+          <dt><span>Classe</span></dt>
+          <dd>
+            <span>{{ veiculo.classe }}</span>
+          </dd>
+          <dt><span>Grupo</span></dt>
+          <dd>
+            <span>{{ veiculo.grupo }}</span>
+          </dd>
+          <dt><span>Situcao</span></dt>
+          <dd>
+            <span>{{ veiculo.situcao }}</span>
+          </dd>
+        </dl>
+
+        <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+          <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Voltar</span>
+        </button>
+
+        <button type="button" [routerLink]="['/veiculo', veiculo.id, 'edit']" class="btn btn-primary">
+          <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Editar</span>
+        </button>
+      </div>
+    }
+  </div>
+</div>

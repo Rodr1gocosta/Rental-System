@@ -1,0 +1,9 @@
+export enum Grupo {
+  HATCH_COMPACTO = 'HATCH_COMPACTO',
+
+  HATCH_MEDIO = 'HATCH_MEDIO',
+
+  SEDAN_MEDIO = 'SEDAN_MEDIO',
+
+  SEDAN_LUXO = 'SEDAN_LUXO',
+}

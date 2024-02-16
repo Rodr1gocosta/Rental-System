@@ -1,0 +1,153 @@
+<div>
+  <h2 id="page-heading" data-cy="VeiculoHeading">
+    <span>Veiculos</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Atualizar lista</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-veiculo"
+        [routerLink]="['/veiculo/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span>Criar novo Veiculo</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  @if (veiculos?.length === 0) {
+    <div class="alert alert-warning" id="no-result">
+      <span>Nenhum Veiculo encontrado</span>
+    </div>
+  }
+
+  @if (veiculos && veiculos.length > 0) {
+    <div class="table-responsive table-entities" id="entities">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+            <th scope="col" jhiSortBy="id">
+              <div class="d-flex">
+                <span>Código</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="placa">
+              <div class="d-flex">
+                <span>Placa</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="marca">
+              <div class="d-flex">
+                <span>Marca</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="modelo">
+              <div class="d-flex">
+                <span>Modelo</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="dataAquisicao">
+              <div class="d-flex">
+                <span>Data Aquisicao</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="classe">
+              <div class="d-flex">
+                <span>Classe</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="grupo">
+              <div class="d-flex">
+                <span>Grupo</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="situcao">
+              <div class="d-flex">
+                <span>Situcao</span>
+
+                <fa-icon class="p-1" icon="sort"></fa-icon>
+              </div>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (veiculo of veiculos; track trackId) {
+            <tr data-cy="entityTable">
+              <td>
+                <a [routerLink]="['/veiculo', veiculo.id, 'view']">{{ veiculo.id }}</a>
+              </td>
+              <td>{{ veiculo.placa }}</td>
+              <td>{{ veiculo.marca }}</td>
+              <td>{{ veiculo.modelo }}</td>
+              <td>{{ veiculo.dataAquisicao | formatMediumDate }}</td>
+              <td>{{ veiculo.classe }}</td>
+              <td>{{ veiculo.grupo }}</td>
+              <td>{{ veiculo.situcao }}</td>
+              <td class="text-end">
+                <div class="btn-group">
+                  <a [routerLink]="['/veiculo', veiculo.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                    <fa-icon icon="eye"></fa-icon>
+                    <span class="d-none d-md-inline">Visualizar</span>
+                  </a>
+
+                  <a [routerLink]="['/veiculo', veiculo.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                    <fa-icon icon="pencil-alt"></fa-icon>
+                    <span class="d-none d-md-inline">Editar</span>
+                  </a>
+
+                  <button type="submit" (click)="delete(veiculo)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                    <fa-icon icon="times"></fa-icon>
+                    <span class="d-none d-md-inline">Excluir</span>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+  @if (veiculos && veiculos.length > 0) {
+    <div>
+      <div class="d-flex justify-content-center">
+        <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
+      </div>
+
+      <div class="d-flex justify-content-center">
+        <ngb-pagination
+          [collectionSize]="totalItems"
+          [page]="page"
+          [pageSize]="itemsPerPage"
+          [maxSize]="5"
+          [rotate]="true"
+          [boundaryLinks]="true"
+          (pageChange)="navigateToPage($event)"
+        ></ngb-pagination>
+      </div>
+    </div>
+  }
+</div>

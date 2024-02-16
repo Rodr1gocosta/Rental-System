@@ -1,0 +1,205 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-cliente-heading" data-cy="ClienteCreateUpdateHeading">Criar ou editar Cliente</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" for="field_nome">Nome</label>
+          <input type="text" class="form-control" name="nome" id="field_nome" data-cy="nome" formControlName="nome" />
+          @if (editForm.get('nome')!.invalid && (editForm.get('nome')!.dirty || editForm.get('nome')!.touched)) {
+            <div>
+              @if (editForm.get('nome')?.errors?.required) {
+                <small class="form-text text-danger">O campo é obrigatório.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_telefone1">Telefone 1</label>
+          <input type="text" class="form-control" name="telefone1" id="field_telefone1" data-cy="telefone1" formControlName="telefone1" />
+          @if (editForm.get('telefone1')!.invalid && (editForm.get('telefone1')!.dirty || editForm.get('telefone1')!.touched)) {
+            <div>
+              @if (editForm.get('telefone1')?.errors?.required) {
+                <small class="form-text text-danger">O campo é obrigatório.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_telefone2">Telefone 2</label>
+          <input type="text" class="form-control" name="telefone2" id="field_telefone2" data-cy="telefone2" formControlName="telefone2" />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_email">Email</label>
+          <input type="text" class="form-control" name="email" id="field_email" data-cy="email" formControlName="email" />
+          @if (editForm.get('email')!.invalid && (editForm.get('email')!.dirty || editForm.get('email')!.touched)) {
+            <div>
+              @if (editForm.get('email')?.errors?.required) {
+                <small class="form-text text-danger">O campo é obrigatório.</small>
+              }
+              @if (editForm.get('email')?.errors?.maxlength) {
+                <small class="form-text text-danger">Este campo não pode ter mais de 30 caracteres.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_cpf">Cpf</label>
+          <input type="text" class="form-control" name="cpf" id="field_cpf" data-cy="cpf" formControlName="cpf" />
+          @if (editForm.get('cpf')!.invalid && (editForm.get('cpf')!.dirty || editForm.get('cpf')!.touched)) {
+            <div>
+              @if (editForm.get('cpf')?.errors?.required) {
+                <small class="form-text text-danger">O campo é obrigatório.</small>
+              }
+              @if (editForm.get('cpf')?.errors?.maxlength) {
+                <small class="form-text text-danger">Este campo não pode ter mais de 11 caracteres.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_rg">Rg</label>
+          <input type="text" class="form-control" name="rg" id="field_rg" data-cy="rg" formControlName="rg" />
+          @if (editForm.get('rg')!.invalid && (editForm.get('rg')!.dirty || editForm.get('rg')!.touched)) {
+            <div>
+              @if (editForm.get('rg')?.errors?.required) {
+                <small class="form-text text-danger">O campo é obrigatório.</small>
+              }
+              @if (editForm.get('rg')?.errors?.maxlength) {
+                <small class="form-text text-danger">Este campo não pode ter mais de 10 caracteres.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_nHabilidacao">N Habilidacao</label>
+          <input
+            type="text"
+            class="form-control"
+            name="nHabilidacao"
+            id="field_nHabilidacao"
+            data-cy="nHabilidacao"
+            formControlName="nHabilidacao"
+          />
+          @if (editForm.get('nHabilidacao')!.invalid && (editForm.get('nHabilidacao')!.dirty || editForm.get('nHabilidacao')!.touched)) {
+            <div>
+              @if (editForm.get('nHabilidacao')?.errors?.required) {
+                <small class="form-text text-danger">O campo é obrigatório.</small>
+              }
+              @if (editForm.get('nHabilidacao')?.errors?.maxlength) {
+                <small class="form-text text-danger">Este campo não pode ter mais de 12 caracteres.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_estadoEmissaoHabilitacao">Estado Emissao Habilitacao</label>
+          <div class="input-group">
+            <input
+              id="field_estadoEmissaoHabilitacao"
+              data-cy="estadoEmissaoHabilitacao"
+              type="text"
+              class="form-control"
+              name="estadoEmissaoHabilitacao"
+              ngbDatepicker
+              #estadoEmissaoHabilitacaoDp="ngbDatepicker"
+              formControlName="estadoEmissaoHabilitacao"
+            />
+            <button type="button" class="btn btn-secondary" (click)="estadoEmissaoHabilitacaoDp.toggle()">
+              <fa-icon icon="calendar-alt"></fa-icon>
+            </button>
+          </div>
+          @if (
+            editForm.get('estadoEmissaoHabilitacao')!.invalid &&
+            (editForm.get('estadoEmissaoHabilitacao')!.dirty || editForm.get('estadoEmissaoHabilitacao')!.touched)
+          ) {
+            <div>
+              @if (editForm.get('estadoEmissaoHabilitacao')?.errors?.required) {
+                <small class="form-text text-danger">O campo é obrigatório.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_validadeHabilitacao">Validade Habilitacao</label>
+          <div class="input-group">
+            <input
+              id="field_validadeHabilitacao"
+              data-cy="validadeHabilitacao"
+              type="text"
+              class="form-control"
+              name="validadeHabilitacao"
+              ngbDatepicker
+              #validadeHabilitacaoDp="ngbDatepicker"
+              formControlName="validadeHabilitacao"
+            />
+            <button type="button" class="btn btn-secondary" (click)="validadeHabilitacaoDp.toggle()">
+              <fa-icon icon="calendar-alt"></fa-icon>
+            </button>
+          </div>
+          @if (
+            editForm.get('validadeHabilitacao')!.invalid &&
+            (editForm.get('validadeHabilitacao')!.dirty || editForm.get('validadeHabilitacao')!.touched)
+          ) {
+            <div>
+              @if (editForm.get('validadeHabilitacao')?.errors?.required) {
+                <small class="form-text text-danger">O campo é obrigatório.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_endereco">Endereco</label>
+          <select
+            class="form-control"
+            id="field_endereco"
+            data-cy="endereco"
+            name="endereco"
+            formControlName="endereco"
+            [compareWith]="compareEndereco"
+          >
+            <option [ngValue]="null"></option>
+            @for (enderecoOption of enderecosCollection; track $index) {
+              <option [ngValue]="enderecoOption">{{ enderecoOption.id }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancelar</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Salvar</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

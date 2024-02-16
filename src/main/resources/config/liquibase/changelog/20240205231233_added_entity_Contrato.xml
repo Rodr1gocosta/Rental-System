@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <!--
+        Added the entity Contrato.
+    -->
+    <changeSet id="20240205231233-1" author="jhipster">
+        <createTable tableName="contrato">
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="taxa_do_dia" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="km_inicial" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="km_final" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="periodo" type="${datetimeType}">
+                <constraints nullable="false" />
+            </column>
+            <column name="contrato_data_inicio" type="${datetimeType}">
+                <constraints nullable="false" />
+            </column>
+            <column name="contrato_data_final" type="${datetimeType}">
+                <constraints nullable="false" />
+            </column>
+            <column name="contrato_data_retirada" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="contrato_data_entrega" type="${datetimeType}">
+                <constraints nullable="true" />
+            </column>
+            <column name="cliente_id" type="bigint">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_contrato__cliente_id" />
+            </column>
+            <column name="veiculo_id" type="bigint">
+                <constraints nullable="true" unique="true" uniqueConstraintName="ux_contrato__veiculo_id" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+        <dropDefaultValue tableName="contrato" columnName="periodo" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="contrato" columnName="contrato_data_inicio" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="contrato" columnName="contrato_data_final" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="contrato" columnName="contrato_data_retirada" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="contrato" columnName="contrato_data_entrega" columnDataType="${datetimeType}"/>
+    </changeSet>
+
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+
+    <!--
+        Load sample data generated with Faker.js
+        - This data can be easily edited using a CSV editor (or even MS Excel) and
+          is located in the 'src/main/resources/config/liquibase/fake-data' directory
+        - By default this data is applied when running with the JHipster 'dev' profile.
+          This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
+          Spring Boot configuration key.
+    -->
+    <changeSet id="20240205231233-1-data" author="jhipster" context="faker">
+        <loadData
+                  file="config/liquibase/fake-data/contrato.csv"
+                  separator=";"
+                  tableName="contrato"
+                  usePreparedStatements="true">
+            <column name="id" type="numeric"/>
+            <column name="taxa_do_dia" type="string"/>
+            <column name="km_inicial" type="numeric"/>
+            <column name="km_final" type="numeric"/>
+            <column name="periodo" type="date"/>
+            <column name="contrato_data_inicio" type="date"/>
+            <column name="contrato_data_final" type="date"/>
+            <column name="contrato_data_retirada" type="date"/>
+            <column name="contrato_data_entrega" type="date"/>
+            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
+        </loadData>
+    </changeSet>
+</databaseChangeLog>

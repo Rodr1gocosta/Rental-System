@@ -1,0 +1,149 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-veiculo-heading" data-cy="VeiculoCreateUpdateHeading">Criar ou editar Veiculo</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        @if (editForm.controls.id.value !== null) {
+          <div class="mb-3">
+            <label class="form-label" for="field_id">ID</label>
+            <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+          </div>
+        }
+
+        <div class="mb-3">
+          <label class="form-label" for="field_placa">Placa</label>
+          <input type="text" class="form-control" name="placa" id="field_placa" data-cy="placa" formControlName="placa" />
+          @if (editForm.get('placa')!.invalid && (editForm.get('placa')!.dirty || editForm.get('placa')!.touched)) {
+            <div>
+              @if (editForm.get('placa')?.errors?.required) {
+                <small class="form-text text-danger">O campo é obrigatório.</small>
+              }
+              @if (editForm.get('placa')?.errors?.maxlength) {
+                <small class="form-text text-danger">Este campo não pode ter mais de 7 caracteres.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_marca">Marca</label>
+          <input type="text" class="form-control" name="marca" id="field_marca" data-cy="marca" formControlName="marca" />
+          @if (editForm.get('marca')!.invalid && (editForm.get('marca')!.dirty || editForm.get('marca')!.touched)) {
+            <div>
+              @if (editForm.get('marca')?.errors?.required) {
+                <small class="form-text text-danger">O campo é obrigatório.</small>
+              }
+              @if (editForm.get('marca')?.errors?.maxlength) {
+                <small class="form-text text-danger">Este campo não pode ter mais de 20 caracteres.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_modelo">Modelo</label>
+          <input type="text" class="form-control" name="modelo" id="field_modelo" data-cy="modelo" formControlName="modelo" />
+          @if (editForm.get('modelo')!.invalid && (editForm.get('modelo')!.dirty || editForm.get('modelo')!.touched)) {
+            <div>
+              @if (editForm.get('modelo')?.errors?.required) {
+                <small class="form-text text-danger">O campo é obrigatório.</small>
+              }
+              @if (editForm.get('modelo')?.errors?.maxlength) {
+                <small class="form-text text-danger">Este campo não pode ter mais de 20 caracteres.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_dataAquisicao">Data Aquisicao</label>
+          <div class="input-group">
+            <input
+              id="field_dataAquisicao"
+              data-cy="dataAquisicao"
+              type="text"
+              class="form-control"
+              name="dataAquisicao"
+              ngbDatepicker
+              #dataAquisicaoDp="ngbDatepicker"
+              formControlName="dataAquisicao"
+            />
+            <button type="button" class="btn btn-secondary" (click)="dataAquisicaoDp.toggle()">
+              <fa-icon icon="calendar-alt"></fa-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_classe">Classe</label>
+          <select class="form-control" name="classe" formControlName="classe" id="field_classe" data-cy="classe">
+            <option [ngValue]="null"></option>
+            @for (classe of classeValues; track $index) {
+              <option [value]="classe">{{ classe }}</option>
+            }
+          </select>
+          @if (editForm.get('classe')!.invalid && (editForm.get('classe')!.dirty || editForm.get('classe')!.touched)) {
+            <div>
+              @if (editForm.get('classe')?.errors?.required) {
+                <small class="form-text text-danger">O campo é obrigatório.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_grupo">Grupo</label>
+          <select class="form-control" name="grupo" formControlName="grupo" id="field_grupo" data-cy="grupo">
+            <option [ngValue]="null"></option>
+            @for (grupo of grupoValues; track $index) {
+              <option [value]="grupo">{{ grupo }}</option>
+            }
+          </select>
+          @if (editForm.get('grupo')!.invalid && (editForm.get('grupo')!.dirty || editForm.get('grupo')!.touched)) {
+            <div>
+              @if (editForm.get('grupo')?.errors?.required) {
+                <small class="form-text text-danger">O campo é obrigatório.</small>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="field_situcao">Situcao</label>
+          <select class="form-control" name="situcao" formControlName="situcao" id="field_situcao" data-cy="situcao">
+            <option [ngValue]="null"></option>
+            @for (situacao of situacaoValues; track $index) {
+              <option [value]="situacao">{{ situacao }}</option>
+            }
+          </select>
+          @if (editForm.get('situcao')!.invalid && (editForm.get('situcao')!.dirty || editForm.get('situcao')!.touched)) {
+            <div>
+              @if (editForm.get('situcao')?.errors?.required) {
+                <small class="form-text text-danger">O campo é obrigatório.</small>
+              }
+            </div>
+          }
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancelar</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Salvar</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
