@@ -37,6 +37,16 @@ import {
   faUsers,
   faUsersCog,
   faWrench,
+  faChevronRight,
+  faCar,
+  faMoneyCheckDollar,
+  faScrewdriverWrench,
+  faSun,
+  faSunPlantWilt,
+  faMoon,
+  faChevronDown,
+  faPaperclip,
+  faListCheck,
   // jhipster-needle-add-icon-import
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -79,5 +89,15 @@ export const fontAwesomeIcons = [
   faUsers,
   faUsersCog,
   faWrench,
+  faChevronRight,
+  faCar,
+  faMoneyCheckDollar,
+  faScrewdriverWrench,
+  faSun,
+  faSunPlantWilt,
+  faMoon,
+  faChevronDown,
+  faPaperclip,
+  faListCheck,
   // jhipster-needle-add-icon-import
 ];

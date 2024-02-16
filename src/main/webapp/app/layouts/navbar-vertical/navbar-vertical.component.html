@@ -1,0 +1,94 @@
+<div>
+  <nav class="sidebar close">
+    <header>
+      <div class="image-text">
+        <span class="image">
+          <img src="../../../content/images/logo-jhipster.png" alt="logo" />
+        </span>
+
+        <div id="texto" class="text header-text">
+          <span class="name">Rental System {{ version }}</span>
+          <span class="profession">Sistema Web</span>
+        </div>
+      </div>
+
+      <a class="chevron-right toggle">
+        <fa-icon icon="chevron-right" [fixedWidth]="true"></fa-icon>
+      </a>
+    </header>
+
+    <div class="menu-bar">
+      <div class="menu">
+        <li class="search">
+          <fa-icon class="icon" icon="search" [fixedWidth]="true"></fa-icon>
+          <input type="search" placeholder="Pesquise..." />
+        </li>
+        <ul class="menu-links">
+          <li class="nav-links">
+            <a routerLink="/">
+              <fa-icon class="icon" icon="home" [fixedWidth]="true"></fa-icon>
+              <span class="text">Home</span>
+            </a>
+          </li>
+          <li class="nav-links">
+            <a href="#">
+              <fa-icon class="icon" icon="users" [fixedWidth]="true"></fa-icon>
+              <span class="text">Clientes</span>
+            </a>
+          </li>
+          <li class="nav-links">
+            <a href="#">
+              <fa-icon class="icon" icon="car" [fixedWidth]="true"></fa-icon>
+              <span class="text">Veículos</span>
+            </a>
+          </li>
+          <li class="nav-submenu contratos">
+            <div class="icon-link" id="submenu-toggle">
+              <a>
+                <fa-icon class="icon" icon="money-check-dollar" [fixedWidth]="true"></fa-icon>
+                <span class="text">Contratos</span>
+                <fa-icon class="icon down" id="toggle-icon" icon="chevron-down" [fixedWidth]="true"></fa-icon>
+              </a>
+            </div>
+            <ul class="submenu" id="submenu">
+              <li>
+                <a href="#">
+                  <span class="text">Contratos Abertos</span>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <span class="text">Contratos Fechados</span>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-links">
+            <a href="#">
+              <fa-icon class="icon" icon="list-check" [fixedWidth]="true"></fa-icon>
+              <span class="text">Vistoria</span>
+            </a>
+          </li>
+          <li class="nav-links">
+            <a href="#">
+              <fa-icon class="icon" icon="screwdriver-wrench" [fixedWidth]="true"></fa-icon>
+              <span class="text">Manutenção</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div>
+        <li class="mode">
+          <div class="moon-sun">
+            <fa-icon class="icon moon" icon="sun" [fixedWidth]="true"></fa-icon>
+            <fa-icon class="icon sun" icon="moon" [fixedWidth]="true"></fa-icon>
+          </div>
+          <span class="mode-text text">Tema escuro</span>
+          <div class="toggle-switch">
+            <span class="switch"></span>
+          </div>
+        </li>
+      </div>
+    </div>
+  </nav>
+</div>
