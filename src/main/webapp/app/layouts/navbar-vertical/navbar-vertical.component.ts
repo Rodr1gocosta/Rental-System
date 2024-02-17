@@ -62,15 +62,24 @@ export class NavbarVerticalComponent {
 
     if (search) {
       search.addEventListener('click', () => {
-        sidebar?.classList.remove('close');
+        const sidebarIsOpen = sidebar?.classList.contains('close');
+
+        if (sidebarIsOpen) {
+          sidebar?.classList.remove('close');
+          this.toggleCollapse();
+        }
       });
     }
     if (contratos) {
       contratos.addEventListener('click', () => {
-        sidebar?.classList.remove('close');
+        const sidebarIsOpen = sidebar?.classList.contains('close');
+
+        if (sidebarIsOpen) {
+          sidebar?.classList.remove('close');
+          this.toggleCollapse();
+        }
       });
     }
-
     if (submenuToggle && submenu && toggleIcon) {
       submenuToggle.addEventListener('click', () => {
         submenu.classList.toggle('show-submenu');

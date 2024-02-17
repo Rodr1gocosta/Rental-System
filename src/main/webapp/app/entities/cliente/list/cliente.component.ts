@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 import { ActivatedRoute, Data, ParamMap, Router, RouterModule } from '@angular/router';
 import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
@@ -16,10 +16,14 @@ import { ICliente } from '../cliente.model';
 import { EntityArrayResponseType, ClienteService } from '../service/cliente.service';
 import { ClienteDeleteDialogComponent } from '../delete/cliente-delete-dialog.component';
 
+import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+
 @Component({
   standalone: true,
   selector: 'jhi-cliente',
   templateUrl: './cliente.component.html',
+  styleUrl: './cliente.component.scss',
   imports: [
     RouterModule,
     FormsModule,
@@ -33,6 +37,13 @@ import { ClienteDeleteDialogComponent } from '../delete/cliente-delete-dialog.co
   ],
 })
 export class ClienteComponent implements OnInit {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatTable) table!: MatTable<any>;
+  displayedColumns: string[] = ['nome', 'telefone1', 'email', 'cpf', 'rg', 'nHabilidacao', 'acao'];
+  dataSource: any;
+  clickedRows = new Set<ICliente>();
+  clientes1: ICliente[] = [];
+
   clientes?: ICliente[];
   isLoading = false;
 
@@ -107,6 +118,7 @@ export class ClienteComponent implements OnInit {
     this.fillComponentAttributesFromResponseHeader(response.headers);
     const dataFromBody = this.fillComponentAttributesFromResponseBody(response.body);
     this.clientes = dataFromBody;
+    this.dataSource = new MatTableDataSource<ICliente>(this.clientes);
   }
 
   protected fillComponentAttributesFromResponseBody(data: ICliente[] | null): ICliente[] {

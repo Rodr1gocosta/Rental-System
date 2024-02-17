@@ -22,7 +22,9 @@ import { MatListModule } from '@angular/material/list';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { NgModule } from '@angular/core';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   imports: [
@@ -50,6 +52,8 @@ import { NgModule } from '@angular/core';
     MatListModule,
     MatIconModule,
     MatSidenavModule,
+    MatPaginatorModule,
+    MatTableModule,
   ],
   exports: [
     MatButtonModule,
@@ -76,6 +80,8 @@ import { NgModule } from '@angular/core';
     MatListModule,
     MatIconModule,
     MatSidenavModule,
+    MatPaginatorModule,
+    MatTableModule,
   ],
 })
 export class JhMaterialModule {}

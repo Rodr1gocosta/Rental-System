@@ -19,6 +19,17 @@
     </a>
     <div class="navbar-collapse collapse" id="navbarResponsive" [ngbCollapse]="isNavbarCollapsed">
       <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link">
+            <div>
+              @if (account !== null) {
+                @if (account) {
+                  <span class="user" id="home-logged-message">Bem-vindo(a) &quot;{{ account.login }}&quot;.</span>
+                }
+              }
+            </div>
+          </a>
+        </li>
         <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
           <a class="nav-link" routerLink="/" (click)="collapseNavbar()">
             <span>

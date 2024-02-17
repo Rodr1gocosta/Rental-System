@@ -1,0 +1,57 @@
+.mat-column-acao {
+  width: 170px;
+  text-align: center;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.mat-card-title-wrapper {
+  position: relative;
+  top: -30px;
+  left: 15px;
+  background-color: #c9c9c9;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-radius: 3px;
+}
+
+.custom-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.button {
+  margin: 3px;
+  background-color: orangered;
+}
+
+.mat-card-fieldset {
+  box-shadow: 0px 0px 2px #000000;
+  margin: 10px;
+}
+
+.mat-card-content {
+  display: flex;
+  flex-direction: row;
+}
+
+.mat-form-field {
+  margin-top: 30px;
+  margin-right: 10px;
+  width: 100%;
+  max-width: 300px;
+  height: 75px;
+}
+
+.form {
+  margin-left: 20px;
+  margin-right: 10px;
+}
+
+.visualizar {
+  margin: 2px;
+  background-color: #008000;
+}

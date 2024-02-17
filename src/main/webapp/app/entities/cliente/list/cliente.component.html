@@ -1,182 +1,166 @@
-<div>
-  <h2 id="page-heading" data-cy="ClienteHeading">
-    <span>Clientes</span>
+<jhi-alert-error></jhi-alert-error>
+<jhi-alert></jhi-alert>
 
-    <div class="d-flex justify-content-end">
-      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
-        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
-        <span>Atualizar lista</span>
-      </button>
+@if (clientes?.length === 0) {
+  <div class="alert alert-warning" id="no-result">
+    <span>Nenhum Cliente encontrado</span>
+  </div>
+}
 
-      <button
-        id="jh-create-entity"
-        data-cy="entityCreateButton"
-        class="btn btn-primary jh-create-entity create-cliente"
-        [routerLink]="['/cliente/new']"
-      >
-        <fa-icon icon="plus"></fa-icon>
-        <span>Criar novo Cliente</span>
-      </button>
+<br /><br />
+
+<mat-card class="mat-card-fieldset">
+  <mat-card-header>
+    <div class="mat-card-title-wrapper">
+      <mat-card-title class="custom-title">Controle de Clientes</mat-card-title>
     </div>
-  </h2>
+  </mat-card-header>
 
-  <jhi-alert-error></jhi-alert-error>
+  <mat-card-content>
+    <mat-card class="mat-card-fieldset">
+      <form class="form">
+        <div class="d-flex flex-wrap">
+          <mat-form-field color="warn" class="mat-form-field">
+            <mat-label>Nome</mat-label>
+            <input matInput placeholder="Ex. Pesquisar por nome" />
+          </mat-form-field>
+          <mat-form-field color="warn" class="mat-form-field">
+            <mat-label>CPF</mat-label>
+            <input matInput placeholder="Ex. Pesquisar por CPF" />
+          </mat-form-field>
+          <mat-form-field color="warn" class="mat-form-field">
+            <mat-label>Telefone</mat-label>
+            <input matInput placeholder="Ex. Pesquisar por telefone" />
+          </mat-form-field>
+          <mat-form-field color="warn" class="mat-form-field">
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Ex. Pesquisar por email" />
+          </mat-form-field>
+        </div>
+      </form>
 
-  <jhi-alert></jhi-alert>
+      <mat-card-content class="mat-card-content d-flex flex-sm-column">
+        <div class="d-flex flex-wrap justify-content-center justify-content-sm-start">
+          <button class="button mb-2" mat-raised-button style="background-color: orangered; color: white">
+            <fa-icon icon="search"></fa-icon>
+            <span>Pesquisar</span>
+          </button>
 
-  @if (clientes?.length === 0) {
-    <div class="alert alert-warning" id="no-result">
-      <span>Nenhum Cliente encontrado</span>
-    </div>
-  }
+          <button
+            class="button mb-2"
+            mat-raised-button
+            [routerLink]="['/cliente/new']"
+            style="background-color: orangered; color: white"
+            id="jh-create-entity"
+            data-cy="entityCreateButton"
+          >
+            <fa-icon icon="plus"></fa-icon>
+            <span>Novo</span>
+          </button>
 
-  @if (clientes && clientes.length > 0) {
-    <div class="table-responsive table-entities" id="entities">
-      <table class="table table-striped" aria-describedby="page-heading">
-        <thead>
-          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-            <th scope="col" jhiSortBy="id">
-              <div class="d-flex">
-                <span>Código</span>
+          <button
+            class="button mb-2"
+            mat-raised-button
+            style="background-color: orangered; color: white"
+            (click)="load()"
+            [disabled]="isLoading"
+          >
+            <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+            <span>Atualizar</span>
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
 
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="nome">
-              <div class="d-flex">
-                <span>Nome</span>
+    <div class="table-wrapper">
+      <table mat-table #table [dataSource]="dataSource" class="mat-elevation-z8">
+        <ng-container matColumnDef="nome">
+          <th mat-header-cell *matHeaderCellDef>Nome</th>
+          <td mat-cell *matCellDef="let element">{{ element.nome }}</td>
+        </ng-container>
 
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="telefone1">
-              <div class="d-flex">
-                <span>Telefone 1</span>
+        <ng-container matColumnDef="telefone1">
+          <th mat-header-cell *matHeaderCellDef>Telefone (principal)</th>
+          <td mat-cell *matCellDef="let element">{{ element.telefone1 }}</td>
+        </ng-container>
 
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="telefone2">
-              <div class="d-flex">
-                <span>Telefone 2</span>
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>E-mail</th>
+          <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+        </ng-container>
 
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="email">
-              <div class="d-flex">
-                <span>Email</span>
+        <ng-container matColumnDef="cpf">
+          <th mat-header-cell *matHeaderCellDef>CPF</th>
+          <td mat-cell *matCellDef="let element">{{ element.cpf }}</td>
+        </ng-container>
 
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="cpf">
-              <div class="d-flex">
-                <span>Cpf</span>
+        <ng-container matColumnDef="rg">
+          <th mat-header-cell *matHeaderCellDef>RG</th>
+          <td mat-cell *matCellDef="let element">{{ element.rg }}</td>
+        </ng-container>
 
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="rg">
-              <div class="d-flex">
-                <span>Rg</span>
+        <ng-container matColumnDef="nHabilidacao">
+          <th mat-header-cell *matHeaderCellDef>Nº Habilitação</th>
+          <td mat-cell *matCellDef="let element">{{ element.nHabilidacao }}</td>
+        </ng-container>
 
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="nHabilidacao">
-              <div class="d-flex">
-                <span>N Habilidacao</span>
+        <ng-container matColumnDef="acao">
+          <th mat-header-cell *matHeaderCellDef>Ações</th>
+          <td mat-cell *matCellDef="let element">
+            <button
+              class="visualizar"
+              mat-mini-fab
+              matTooltip="Visualizar"
+              [routerLink]="['/cliente', element.id, 'view']"
+              data-cy="entityDetailsButton"
+            >
+              <fa-icon icon="eye"></fa-icon>
+            </button>
 
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="estadoEmissaoHabilitacao">
-              <div class="d-flex">
-                <span>Estado Emissao Habilitacao</span>
+            <button
+              mat-mini-fab
+              matTooltip="Editar"
+              color="primary"
+              [routerLink]="['/cliente', element.id, 'edit']"
+              data-cy="entityEditButton"
+            >
+              <fa-icon icon="pencil-alt"></fa-icon>
+            </button>
 
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="validadeHabilitacao">
-              <div class="d-flex">
-                <span>Validade Habilitacao</span>
+            <button mat-mini-fab matTooltip="Deletar" color="warn" (click)="delete(element)">
+              <fa-icon icon="trash"></fa-icon>
+            </button>
+          </td>
+        </ng-container>
 
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col" jhiSortBy="endereco.id">
-              <div class="d-flex">
-                <span>Endereco</span>
-                <fa-icon class="p-1" icon="sort"></fa-icon>
-              </div>
-            </th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (cliente of clientes; track trackId) {
-            <tr data-cy="entityTable">
-              <td>
-                <a [routerLink]="['/cliente', cliente.id, 'view']">{{ cliente.id }}</a>
-              </td>
-              <td>{{ cliente.nome }}</td>
-              <td>{{ cliente.telefone1 }}</td>
-              <td>{{ cliente.telefone2 }}</td>
-              <td>{{ cliente.email }}</td>
-              <td>{{ cliente.cpf }}</td>
-              <td>{{ cliente.rg }}</td>
-              <td>{{ cliente.nHabilidacao }}</td>
-              <td>{{ cliente.estadoEmissaoHabilitacao | formatMediumDate }}</td>
-              <td>{{ cliente.validadeHabilitacao | formatMediumDate }}</td>
-              <td>
-                @if (cliente.endereco) {
-                  <div>
-                    <a [routerLink]="['/endereco', cliente.endereco.id, 'view']">{{ cliente.endereco.id }}</a>
-                  </div>
-                }
-              </td>
-              <td class="text-end">
-                <div class="btn-group">
-                  <a [routerLink]="['/cliente', cliente.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
-                    <fa-icon icon="eye"></fa-icon>
-                    <span class="d-none d-md-inline">Visualizar</span>
-                  </a>
-
-                  <a [routerLink]="['/cliente', cliente.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
-                    <fa-icon icon="pencil-alt"></fa-icon>
-                    <span class="d-none d-md-inline">Editar</span>
-                  </a>
-
-                  <button type="submit" (click)="delete(cliente)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
-                    <fa-icon icon="times"></fa-icon>
-                    <span class="d-none d-md-inline">Excluir</span>
-                  </button>
-                </div>
-              </td>
-            </tr>
-          }
-        </tbody>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr
+          mat-row
+          (click)="clickedRows.add(row)"
+          [class.demo-row-is-clicked]="clickedRows.has(row)"
+          *matRowDef="let row; columns: displayedColumns"
+        ></tr>
       </table>
     </div>
-  }
-  @if (clientes && clientes.length > 0) {
-    <div>
-      <div class="d-flex justify-content-center">
-        <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
-      </div>
+    <mat-paginator color="warn" [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons aria-label="Select page of periodic elements">
+    </mat-paginator>
+  </mat-card-content>
 
-      <div class="d-flex justify-content-center">
-        <ngb-pagination
-          [collectionSize]="totalItems"
-          [page]="page"
-          [pageSize]="itemsPerPage"
-          [maxSize]="5"
-          [rotate]="true"
-          [boundaryLinks]="true"
-          (pageChange)="navigateToPage($event)"
-        ></ngb-pagination>
-      </div>
+  <div>
+    <div class="d-flex justify-content-center">
+      <jhi-item-count [params]="{ page: page, totalItems: totalItems, itemsPerPage: itemsPerPage }"></jhi-item-count>
     </div>
-  }
-</div>
+
+    <div class="d-flex justify-content-center">
+      <ngb-pagination
+        [collectionSize]="totalItems"
+        [page]="page"
+        [pageSize]="itemsPerPage"
+        [maxSize]="5"
+        [rotate]="true"
+        [boundaryLinks]="true"
+        (pageChange)="navigateToPage($event)"
+      ></ngb-pagination>
+    </div>
+  </div>
+</mat-card>
