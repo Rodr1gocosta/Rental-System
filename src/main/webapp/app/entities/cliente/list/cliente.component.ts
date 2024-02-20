@@ -16,8 +16,8 @@ import { ICliente } from '../cliente.model';
 import { EntityArrayResponseType, ClienteService } from '../service/cliente.service';
 import { ClienteDeleteDialogComponent } from '../delete/cliente-delete-dialog.component';
 
-import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
 
 @Component({
   standalone: true,
@@ -38,11 +38,9 @@ import { MatPaginator } from '@angular/material/paginator';
 })
 export class ClienteComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatTable) table!: MatTable<any>;
-  displayedColumns: string[] = ['nome', 'telefone1', 'email', 'cpf', 'rg', 'nHabilidacao', 'acao'];
   dataSource: any;
+  displayedColumns: string[] = ['nome', 'telefone1', 'email', 'cpf', 'rg', 'nHabilidacao', 'acao'];
   clickedRows = new Set<ICliente>();
-  clientes1: ICliente[] = [];
 
   clientes?: ICliente[];
   isLoading = false;
@@ -53,6 +51,8 @@ export class ClienteComponent implements OnInit {
   itemsPerPage = ITEMS_PER_PAGE;
   totalItems = 0;
   page = 1;
+  totalPage = 0;
+  pageIndex = 0;
 
   constructor(
     protected clienteService: ClienteService,
@@ -84,6 +84,18 @@ export class ClienteComponent implements OnInit {
   }
 
   load(): void {
+    this.activatedRoute.queryParamMap.subscribe(params => {
+      const pageString = params.get('page');
+      const sizeString = params.get('size');
+
+      const page = pageString ? +pageString : 1;
+      const size = sizeString ? +sizeString : 10;
+      this.pageIndex = pageString ? page - 1 : 0;
+
+      this.page = page;
+      this.itemsPerPage = size;
+    });
+
     this.loadFromBackendWithRouteInformations().subscribe({
       next: (res: EntityArrayResponseType) => {
         this.onResponseSuccess(res);
@@ -91,12 +103,10 @@ export class ClienteComponent implements OnInit {
     });
   }
 
-  navigateToWithComponentValues(): void {
+  refreshPaginator(event: PageEvent) {
+    this.page = event.pageIndex + 1;
+    this.itemsPerPage = this.paginator.pageSize;
     this.handleNavigation(this.page, this.predicate, this.ascending);
-  }
-
-  navigateToPage(page = this.page): void {
-    this.handleNavigation(page, this.predicate, this.ascending);
   }
 
   protected loadFromBackendWithRouteInformations(): Observable<EntityArrayResponseType> {
