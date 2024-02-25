@@ -12,11 +12,13 @@ import { EnderecoService } from 'app/entities/endereco/service/endereco.service'
 import { ICliente } from '../cliente.model';
 import { ClienteService } from '../service/cliente.service';
 import { ClienteFormService, ClienteFormGroup } from './cliente-form.service';
+import dayjs from 'dayjs/esm';
 
 @Component({
   standalone: true,
   selector: 'jhi-cliente-update',
   templateUrl: './cliente-update.component.html',
+  styleUrl: './cliente-update.component.scss',
   imports: [SharedModule, FormsModule, ReactiveFormsModule],
 })
 export class ClienteUpdateComponent implements OnInit {
@@ -54,6 +56,10 @@ export class ClienteUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const cliente = this.clienteFormService.getCliente(this.editForm);
+
+    cliente.estadoEmissaoHabilitacao = cliente.estadoEmissaoHabilitacao ? this.convertToDayjs(cliente.estadoEmissaoHabilitacao) : null;
+    cliente.validadeHabilitacao = cliente.validadeHabilitacao ? this.convertToDayjs(cliente.validadeHabilitacao) : null;
+
     if (cliente.id !== null) {
       this.subscribeToSaveResponse(this.clienteService.update(cliente));
     } else {
@@ -97,5 +103,47 @@ export class ClienteUpdateComponent implements OnInit {
         ),
       )
       .subscribe((enderecos: IEndereco[]) => (this.enderecosCollection = enderecos));
+  }
+
+  errorRequiredField(controlName: string) {
+    const control = this.editForm.get(controlName);
+
+    if (control?.hasError('required')) {
+      return 'Campo é obrigatório!';
+    }
+    return 'Campo inválido!';
+  }
+
+  errorRequiredFieldEndereco(controlName: string) {
+    const enderecoControl = this.editForm.get('endereco')?.get(controlName);
+
+    if (enderecoControl?.hasError('required')) {
+      return 'Campo é obrigatório!';
+    }
+    return 'Campo inválido!';
+  }
+
+  errorValidEmail() {
+    if (this.editForm.get('email')?.hasError('required')) {
+      return 'Campo obrigatório!';
+    } else if (this.editForm.get('email')?.hasError('pattern')) {
+      return 'E-mail inválido';
+    }
+    return false;
+  }
+
+  errorValidNHabilitacao() {
+    const nHabilidacaoControl = this.editForm.get('nHabilidacao');
+
+    if (nHabilidacaoControl?.hasError('required')) {
+      return 'Campo obrigatório!';
+    } else if (nHabilidacaoControl?.hasError('pattern')) {
+      return 'O número da CNH deve conter exatamente 11 dígitos.';
+    }
+    return 'Campo Inválido!';
+  }
+
+  convertToDayjs(date: any): dayjs.Dayjs {
+    return dayjs(date);
   }
 }

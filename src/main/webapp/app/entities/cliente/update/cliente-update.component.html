@@ -1,4 +1,263 @@
-<div class="d-flex justify-content-center">
+<div class="body">
+  <mat-card class="mat-card-fieldset">
+    <mat-card-header>
+      <div class="mat-card-title-wrapper">
+        <mat-card-title class="custom-title">Cadastrar Cliente</mat-card-title>
+      </div>
+    </mat-card-header>
+
+    <mat-card-content>
+      <form class="form" [formGroup]="editForm">
+        <div class="dados">
+          <h3>Dados</h3>
+          <div class="d-flex">
+            <mat-form-field class="mat-form-field">
+              <mat-label for="field_nome">Nome Completo</mat-label>
+              <input
+                matInput
+                type="text"
+                formControlName="nome"
+                name="nome"
+                id="field_nome"
+                data-cy="nome"
+                placeholder="Ex. Coloque o nome completo"
+              />
+              <mat-error>{{ errorRequiredField('nome') }}</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="d-flex">
+            <mat-form-field class="mat-form-field" style="margin-right: 10px">
+              <mat-label for="field_cpf">CPF</mat-label>
+              <input
+                matInput
+                [mask]="'000.000.000-00'"
+                type="text"
+                formControlName="cpf"
+                name="cpf"
+                id="field_cpf"
+                data-cy="cpf"
+                placeholder="Ex. CPF do cliente"
+              />
+              <mat-error>{{ errorRequiredField('cpf') }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="mat-form-field" style="margin-right: 10px">
+              <mat-label for="field_rg">RG</mat-label>
+              <input
+                matInput
+                mask="00.000.000-0"
+                type="text"
+                formControlName="rg"
+                name="rg"
+                id="field_rg"
+                data-cy="rg"
+                placeholder="Ex. RG do cliente"
+              />
+              <mat-error>{{ errorRequiredField('rg') }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="mat-form-field">
+              <mat-label>Gênero</mat-label>
+              <mat-select>
+                <mat-option value="masculino">Masculino</mat-option>
+                <mat-option value="feminino">Feminino</mat-option>
+                <mat-option value="outros">Outros</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="d-flex">
+            <mat-form-field style="margin-right: 10px; width: 70%">
+              <mat-label for="field_email">Email</mat-label>
+              <input
+                matInput
+                type="email"
+                formControlName="email"
+                name="email"
+                id="field_email"
+                data-cy="email"
+                placeholder="Ex. Email do cliente"
+              />
+              <mat-error>{{ errorValidEmail() }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field style="width: 30%; height: 78px">
+              <mat-label>Date de Nascimento</mat-label>
+              <input matInput [matDatepicker]="dtNascimento" />
+              <mat-hint>MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle matIconSuffix [for]="dtNascimento"></mat-datepicker-toggle>
+              <mat-datepicker #dtNascimento></mat-datepicker>
+              <input matInput />
+            </mat-form-field>
+          </div>
+          <div class="d-flex">
+            <mat-form-field class="mat-form-field" style="margin-right: 10px">
+              <mat-label for="field_telefone1">Telefone (Principal)</mat-label>
+              <input
+                matInput
+                [mask]="'(00) 00000-0000'"
+                type="text"
+                formControlName="telefone1"
+                name="telefone1"
+                id="field_telefone1"
+                data-cy="telefone1"
+                placeholder="Ex. Telefone do cliente"
+              />
+              <mat-error>{{ errorRequiredField('telefone1') }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="mat-form-field">
+              <mat-label for="field_telefone2">Telefone (Opcional)</mat-label>
+              <input
+                matInput
+                [mask]="'(00) 00000-0000'"
+                type="text"
+                formControlName="telefone2"
+                name="telefone2"
+                id="field_telefone2"
+                data-cy="telefone2"
+                placeholder="Ex. Telefone do cliente"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+
+        <br />
+
+        <div class="dados">
+          <h3>Habilitação</h3>
+          <div class="d-flex">
+            <mat-form-field class="mat-form-field" style="margin-right: 10px">
+              <mat-label for="field_nHabilidacao">N° Habilitação</mat-label>
+              <input
+                matInput
+                type="text"
+                name="nHabilidacao"
+                id="field_nHabilidacao"
+                data-cy="nHabilidacao"
+                formControlName="nHabilidacao"
+                placeholder="Ex. 12345678901"
+              />
+              <mat-error>{{ errorValidNHabilitacao() }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field class="mat-form-field" style="margin-right: 10px; height: 78px">
+              <mat-label for="field_estadoEmissaoHabilitacao">Data de Emissão</mat-label>
+              <input
+                matInput
+                [matDatepicker]="dtEmissao"
+                id="field_estadoEmissaoHabilitacao"
+                data-cy="estadoEmissaoHabilitacao"
+                formControlName="estadoEmissaoHabilitacao"
+                name="estadoEmissaoHabilitacao"
+              />
+              <mat-datepicker-toggle matIconSuffix [for]="dtEmissao"></mat-datepicker-toggle>
+              <mat-datepicker #dtEmissao></mat-datepicker>
+              <input matInput />
+            </mat-form-field>
+
+            <mat-form-field class="mat-form-field" style="height: 78px">
+              <mat-label for="field_validadeHabilitacao">Data de Validade</mat-label>
+              <input
+                matInput
+                [matDatepicker]="dtValidade"
+                id="field_validadeHabilitacao"
+                data-cy="validadeHabilitacao"
+                formControlName="validadeHabilitacao"
+                name="validadeHabilitacao"
+              />
+              <mat-datepicker-toggle matIconSuffix [for]="dtValidade"></mat-datepicker-toggle>
+              <mat-datepicker #dtValidade></mat-datepicker>
+              <input matInput />
+            </mat-form-field>
+          </div>
+        </div>
+
+        <br />
+
+        <div class="dados" formGroupName="endereco">
+          <h3>Endereço</h3>
+          <div class="d-flex">
+            <mat-form-field style="width: 35%; margin-right: 10px">
+              <mat-label for="field_cep">CEP</mat-label>
+              <input
+                matInput
+                mask="00000-000"
+                type="text"
+                id="field_cep"
+                data-cy="cep"
+                name="cep"
+                formControlName="cep"
+                placeholder="Digite seu CEP"
+              />
+              <mat-error>{{ errorRequiredFieldEndereco('cep') }}</mat-error>
+            </mat-form-field>
+            <mat-form-field style="width: 50%; margin-right: 10px">
+              <mat-label>Cidade</mat-label>
+              <input matInput />
+            </mat-form-field>
+            <mat-form-field style="width: 15%">
+              <mat-label>UF</mat-label>
+              <input matInput />
+            </mat-form-field>
+          </div>
+          <div class="d-flex">
+            <mat-form-field style="width: 85%; margin-right: 10px">
+              <mat-label for="field_logradouro">Logradouro</mat-label>
+              <input matInput type="text" id="field_logradouro" data-cy="logradouro" name="logradouro" formControlName="logradouro" />
+              <mat-error>{{ errorRequiredFieldEndereco('logradouro') }}</mat-error>
+            </mat-form-field>
+            <mat-form-field style="width: 15%">
+              <mat-label for="field_numero">Número</mat-label>
+              <input matInput type="text" id="field_numero" data-cy="numero" name="numero" formControlName="numero" />
+              <mat-error>{{ errorRequiredFieldEndereco('numero') }}</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="d-flex">
+            <mat-form-field style="width: 50%; margin-right: 10px">
+              <mat-label for="field_bairro">Bairro</mat-label>
+              <input matInput type="text" id="field_bairro" data-cy="bairro" name="bairro" formControlName="bairro" />
+              <mat-error>{{ errorRequiredFieldEndereco('bairro') }}</mat-error>
+            </mat-form-field>
+            <mat-form-field style="width: 50%">
+              <mat-label for="field_complemento">Complemento / Ponto de Referência</mat-label>
+              <input matInput type="text" id="field_complemento" data-cy="complemento" name="complemento" formControlName="complemento" />
+            </mat-form-field>
+          </div>
+        </div>
+
+        <br />
+        <mat-divider></mat-divider>
+
+        <div class="button">
+          <button
+            class="cancel"
+            id="cancel-save"
+            data-cy="entityCreateCancelButton"
+            color="warn"
+            mat-raised-button
+            (click)="previousState()"
+          >
+            <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancelar</span>
+          </button>
+          <span></span>
+          <button
+            class="save"
+            [ngStyle]="editForm.invalid ? { color: '#999999' } : { color: 'white', 'background-color': '#008000' }"
+            mat-raised-button
+            (click)="save()"
+            [disabled]="editForm.invalid"
+          >
+            <fa-icon icon="save"></fa-icon>&nbsp;<span>Salvar</span>
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<!-- <div class="d-flex justify-content-center">
   <div class="col-8">
     <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
       <h2 id="jhi-cliente-heading" data-cy="ClienteCreateUpdateHeading">Criar ou editar Cliente</h2>
@@ -202,4 +461,4 @@
       </div>
     </form>
   </div>
-</div>
+</div> -->

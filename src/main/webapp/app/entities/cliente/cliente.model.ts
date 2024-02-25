@@ -13,7 +13,7 @@ export interface ICliente {
   nHabilidacao?: string | null;
   estadoEmissaoHabilitacao?: dayjs.Dayjs | null;
   validadeHabilitacao?: dayjs.Dayjs | null;
-  endereco?: Pick<IEndereco, 'id'> | null;
+  endereco?: IEndereco | null;
   contrato?: Pick<IContrato, 'id'> | null;
 }
 
