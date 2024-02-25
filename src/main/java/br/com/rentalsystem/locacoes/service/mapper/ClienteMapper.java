@@ -17,5 +17,10 @@ public interface ClienteMapper extends EntityMapper<ClienteDTO, Cliente> {
     @Named("enderecoId")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
+    @Mapping(target = "cep", source = "cep")
+    @Mapping(target = "logradouro", source = "logradouro")
+    @Mapping(target = "numero", source = "numero")
+    @Mapping(target = "complemento", source = "complemento")
+    @Mapping(target = "bairro", source = "bairro")
     EnderecoDTO toDtoEnderecoId(Endereco endereco);
 }

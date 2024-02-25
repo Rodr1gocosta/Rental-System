@@ -3,7 +3,9 @@ package br.com.rentalsystem.locacoes.service.impl;
 import br.com.rentalsystem.locacoes.domain.Cliente;
 import br.com.rentalsystem.locacoes.repository.ClienteRepository;
 import br.com.rentalsystem.locacoes.service.ClienteService;
+import br.com.rentalsystem.locacoes.service.EnderecoService;
 import br.com.rentalsystem.locacoes.service.dto.ClienteDTO;
+import br.com.rentalsystem.locacoes.service.dto.EnderecoDTO;
 import br.com.rentalsystem.locacoes.service.mapper.ClienteMapper;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,16 +30,24 @@ public class ClienteServiceImpl implements ClienteService {
 
     private final ClienteRepository clienteRepository;
 
+    private final EnderecoService enderecoService;
+
     private final ClienteMapper clienteMapper;
 
-    public ClienteServiceImpl(ClienteRepository clienteRepository, ClienteMapper clienteMapper) {
+    public ClienteServiceImpl(ClienteRepository clienteRepository, EnderecoService enderecoService, ClienteMapper clienteMapper) {
         this.clienteRepository = clienteRepository;
+        this.enderecoService = enderecoService;
         this.clienteMapper = clienteMapper;
     }
 
     @Override
     public ClienteDTO save(ClienteDTO clienteDTO) {
         log.debug("Request to save Cliente : {}", clienteDTO);
+
+        EnderecoDTO enderecoDTO = clienteDTO.getEndereco();
+        EnderecoDTO resultEndereco = enderecoService.save(enderecoDTO);
+        clienteDTO.setEndereco(resultEndereco);
+
         Cliente cliente = clienteMapper.toEntity(clienteDTO);
         cliente = clienteRepository.save(cliente);
         return clienteMapper.toDto(cliente);
@@ -46,6 +56,11 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public ClienteDTO update(ClienteDTO clienteDTO) {
         log.debug("Request to update Cliente : {}", clienteDTO);
+
+        EnderecoDTO enderecoDTO = clienteDTO.getEndereco();
+        EnderecoDTO resultEndereco = enderecoService.update(enderecoDTO);
+        clienteDTO.setEndereco(resultEndereco);
+
         Cliente cliente = clienteMapper.toEntity(clienteDTO);
         cliente = clienteRepository.save(cliente);
         return clienteMapper.toDto(cliente);
@@ -97,6 +112,13 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public void delete(Long id) {
         log.debug("Request to delete Cliente : {}", id);
+
+        Optional<Cliente> cliente = clienteRepository.findById(id);
+
+        if (cliente.isPresent() && cliente.get().getEndereco() != null && cliente.get().getEndereco().getId() != null) {
+            enderecoService.delete(cliente.get().getEndereco().getId());
+        }
+
         clienteRepository.deleteById(id);
     }
 }
