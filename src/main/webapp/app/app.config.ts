@@ -14,6 +14,7 @@ import routes from './app.routes';
 import { NgbDateDayjsAdapter } from './config/datepicker-adapter';
 import { AppPageTitleStrategy } from './app-page-title-strategy';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { provideEnvironmentNgxMask } from 'ngx-mask';
 
 const routerFeatures: Array<RouterFeatures> = [withComponentInputBinding()];
 if (DEBUG_INFO_ENABLED) {
@@ -28,6 +29,7 @@ export const appConfig: ApplicationConfig = {
     // Set this to true to enable service worker (PWA)
     importProvidersFrom(ServiceWorkerModule.register('ngsw-worker.js', { enabled: false })),
     importProvidersFrom(HttpClientModule),
+    provideEnvironmentNgxMask(),
     Title,
     { provide: LOCALE_ID, useValue: 'pt' },
     { provide: NgbDateAdapter, useClass: NgbDateDayjsAdapter },
