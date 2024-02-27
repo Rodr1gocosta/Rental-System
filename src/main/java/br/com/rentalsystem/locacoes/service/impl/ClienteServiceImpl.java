@@ -44,9 +44,11 @@ public class ClienteServiceImpl implements ClienteService {
     public ClienteDTO save(ClienteDTO clienteDTO) {
         log.debug("Request to save Cliente : {}", clienteDTO);
 
-        EnderecoDTO enderecoDTO = clienteDTO.getEndereco();
-        EnderecoDTO resultEndereco = enderecoService.save(enderecoDTO);
-        clienteDTO.setEndereco(resultEndereco);
+        if (clienteDTO.getEndereco() != null) {
+            EnderecoDTO enderecoDTO = clienteDTO.getEndereco();
+            EnderecoDTO resultEndereco = enderecoService.save(enderecoDTO);
+            clienteDTO.setEndereco(resultEndereco);
+        }
 
         Cliente cliente = clienteMapper.toEntity(clienteDTO);
         cliente = clienteRepository.save(cliente);
@@ -57,9 +59,11 @@ public class ClienteServiceImpl implements ClienteService {
     public ClienteDTO update(ClienteDTO clienteDTO) {
         log.debug("Request to update Cliente : {}", clienteDTO);
 
-        EnderecoDTO enderecoDTO = clienteDTO.getEndereco();
-        EnderecoDTO resultEndereco = enderecoService.update(enderecoDTO);
-        clienteDTO.setEndereco(resultEndereco);
+        if (clienteDTO.getEndereco() != null) {
+            EnderecoDTO enderecoDTO = clienteDTO.getEndereco();
+            EnderecoDTO resultEndereco = enderecoService.update(enderecoDTO);
+            clienteDTO.setEndereco(resultEndereco);
+        }
 
         Cliente cliente = clienteMapper.toEntity(clienteDTO);
         cliente = clienteRepository.save(cliente);
@@ -113,11 +117,13 @@ public class ClienteServiceImpl implements ClienteService {
     public void delete(Long id) {
         log.debug("Request to delete Cliente : {}", id);
 
-        Optional<Cliente> cliente = clienteRepository.findById(id);
+        Optional<Cliente> clienteOptional = clienteRepository.findById(id);
 
-        if (cliente.isPresent() && cliente.get().getEndereco() != null && cliente.get().getEndereco().getId() != null) {
-            enderecoService.delete(cliente.get().getEndereco().getId());
-        }
+        clienteOptional.ifPresent(cliente -> {
+            if (cliente.getEndereco() != null && cliente.getEndereco().getId() != null) {
+                enderecoService.delete(cliente.getEndereco().getId());
+            }
+        });
 
         clienteRepository.deleteById(id);
     }

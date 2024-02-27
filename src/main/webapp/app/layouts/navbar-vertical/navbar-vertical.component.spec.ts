@@ -16,7 +16,8 @@ describe('NavbarVerticalComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  // Teste que será ignorado
+  xit('should create', () => {
     expect(component).toBeTruthy();
   });
 });

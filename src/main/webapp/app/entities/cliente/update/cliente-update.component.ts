@@ -67,6 +67,48 @@ export class ClienteUpdateComponent implements OnInit {
     }
   }
 
+  errorRequiredField(controlName: string): string {
+    const control = this.editForm.get(controlName);
+
+    if (control?.hasError('required')) {
+      return 'Campo é obrigatório!';
+    }
+    return 'Campo inválido!';
+  }
+
+  errorRequiredFieldEndereco(controlName: string): string {
+    const enderecoControl = this.editForm.get('endereco')?.get(controlName);
+
+    if (enderecoControl?.hasError('required')) {
+      return 'Campo é obrigatório!';
+    }
+    return 'Campo inválido!';
+  }
+
+  errorValidEmail(): string | boolean {
+    if (this.editForm.get('email')?.hasError('required')) {
+      return 'Campo obrigatório!';
+    } else if (this.editForm.get('email')?.hasError('pattern')) {
+      return 'E-mail inválido';
+    }
+    return false;
+  }
+
+  errorValidNHabilitacao(): string {
+    const nHabilidacaoControl = this.editForm.get('nHabilidacao');
+
+    if (nHabilidacaoControl?.hasError('required')) {
+      return 'Campo obrigatório!';
+    } else if (nHabilidacaoControl?.hasError('pattern')) {
+      return 'O número da CNH deve conter exatamente 11 dígitos.';
+    }
+    return 'Campo Inválido!';
+  }
+
+  convertToDayjs(date: any): dayjs.Dayjs {
+    return dayjs(date);
+  }
+
   protected subscribeToSaveResponse(result: Observable<HttpResponse<ICliente>>): void {
     result.pipe(finalize(() => this.onSaveFinalize())).subscribe({
       next: () => this.onSaveSuccess(),
@@ -103,47 +145,5 @@ export class ClienteUpdateComponent implements OnInit {
         ),
       )
       .subscribe((enderecos: IEndereco[]) => (this.enderecosCollection = enderecos));
-  }
-
-  errorRequiredField(controlName: string) {
-    const control = this.editForm.get(controlName);
-
-    if (control?.hasError('required')) {
-      return 'Campo é obrigatório!';
-    }
-    return 'Campo inválido!';
-  }
-
-  errorRequiredFieldEndereco(controlName: string) {
-    const enderecoControl = this.editForm.get('endereco')?.get(controlName);
-
-    if (enderecoControl?.hasError('required')) {
-      return 'Campo é obrigatório!';
-    }
-    return 'Campo inválido!';
-  }
-
-  errorValidEmail() {
-    if (this.editForm.get('email')?.hasError('required')) {
-      return 'Campo obrigatório!';
-    } else if (this.editForm.get('email')?.hasError('pattern')) {
-      return 'E-mail inválido';
-    }
-    return false;
-  }
-
-  errorValidNHabilitacao() {
-    const nHabilidacaoControl = this.editForm.get('nHabilidacao');
-
-    if (nHabilidacaoControl?.hasError('required')) {
-      return 'Campo obrigatório!';
-    } else if (nHabilidacaoControl?.hasError('pattern')) {
-      return 'O número da CNH deve conter exatamente 11 dígitos.';
-    }
-    return 'Campo Inválido!';
-  }
-
-  convertToDayjs(date: any): dayjs.Dayjs {
-    return dayjs(date);
   }
 }

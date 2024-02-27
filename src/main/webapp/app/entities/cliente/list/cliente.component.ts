@@ -103,7 +103,7 @@ export class ClienteComponent implements OnInit {
     });
   }
 
-  refreshPaginator(event: PageEvent) {
+  refreshPaginator(event: PageEvent): void {
     this.page = event.pageIndex + 1;
     this.itemsPerPage = this.paginator.pageSize;
     this.handleNavigation(this.page, this.predicate, this.ascending);

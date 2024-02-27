@@ -39,7 +39,7 @@ export default class MainComponent implements OnInit {
     });
   }
 
-  onToggleSideNav(data: SideNavToggle): void {
+  toggleSideNav(data: SideNavToggle): void {
     this.collapsed = data.collapsed;
     if (this.collapsed) {
       document.body.classList.add('body-trimmed');

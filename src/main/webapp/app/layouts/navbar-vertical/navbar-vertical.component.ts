@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { VERSION } from 'app/app.constants';
 import SharedModule from 'app/shared/shared.module';
@@ -14,10 +14,10 @@ interface SideNavToggle {
   templateUrl: './navbar-vertical.component.html',
   styleUrl: './navbar-vertical.component.scss',
 })
-export class NavbarVerticalComponent {
+export class NavbarVerticalComponent implements OnInit {
   version = '';
 
-  @Output() onToggleSideNav: EventEmitter<SideNavToggle> = new EventEmitter();
+  @Output() toggleSideNav: EventEmitter<SideNavToggle> = new EventEmitter();
   collapsed = false;
 
   constructor() {
@@ -90,6 +90,6 @@ export class NavbarVerticalComponent {
 
   toggleCollapse(): void {
     this.collapsed = !this.collapsed;
-    this.onToggleSideNav.emit({ collapsed: this.collapsed });
+    this.toggleSideNav.emit({ collapsed: this.collapsed });
   }
 }

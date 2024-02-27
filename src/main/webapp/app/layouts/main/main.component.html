@@ -8,6 +8,6 @@
   <div class="card jh-card" [ngClass]="{ 'body-trimmed': collapsed }">
     <router-outlet></router-outlet>
   </div>
-  <jhi-navbar-vertical *ngIf="account !== null" (onToggleSideNav)="onToggleSideNav($event)"></jhi-navbar-vertical>
+  <jhi-navbar-vertical *ngIf="account !== null" (toggleSideNav)="toggleSideNav($event)"></jhi-navbar-vertical>
 </div>
 <jhi-footer></jhi-footer>
