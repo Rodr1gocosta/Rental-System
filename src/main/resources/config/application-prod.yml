@@ -33,9 +33,9 @@ spring:
       enabled: false
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://localhost:5432/rentalSystem
+    url: jdbc:postgresql://rental-system-db.c9qccsyyeewk.us-east-2.rds.amazonaws.com:5432/rentalSystem
     username: rentalSystem
-    password:
+    password: rentalsystem2024
     hikari:
       poolName: Hikari
       auto-commit: false
